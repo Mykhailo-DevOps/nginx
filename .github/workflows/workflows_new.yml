@@ -28,6 +28,15 @@ jobs:
         echo "Hello M2"
         echo "App name: ${{ env.Aplications }}" 
         
+    - name: List current 
+      run : ls -la 
+      
+    - name: GitClone
+      uses: actions/checkout@v1
+        
+    - name: List current 
+      run : ls -la   
+ 
  my_deploy:
     runs-on: ubuntu-latest 
     needs: [my_test]
