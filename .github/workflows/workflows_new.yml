@@ -5,6 +5,9 @@
 #
 
 name: GitHubActions-Basics
+env:
+  Aplications: "My_app"
+  Package_name: "app_deploy-ver-${{ github.sha }}"
   
 on:
   push:
@@ -18,7 +21,13 @@ jobs:
     steps:
     - name: Print Hello Message in Test
       run : echo "Hello World from Teting job"  
-
+      
+    - name: Execute few commands
+      run : |
+        echo "Hello M1"
+        echo "Hello M2"
+        echo "App name: ${{ env.Aplications }}" 
+        
  my_deploy:
     runs-on: ubuntu-latest 
     needs: [my_test]
@@ -26,3 +35,6 @@ jobs:
     steps:
     - name: Print Hello Message in Deploy  
       run : echo "Hello World from deploy job"
+      
+    - name: Print Deploy package
+      run : echo "Deploy packcage name is ${{ env.Package_name }}"
