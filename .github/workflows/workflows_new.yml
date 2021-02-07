@@ -1,49 +1,19 @@
-#--------------------------------------------------------------
-# Github Action Part-1 Basics
-#
-# Copyleft (c) by Mykhailo Kolodii
-#
-
-name: GitHubActions-Basics
+name: CI-CD-pipeline-to-AWS
 env:
-  Aplications: "My_app"
-  Package_name: "app_deploy-ver-${{ github.sha }}"
-  
+  El_Package_S3    : "mykhailo-app-package"
+  Eb_App_Name      : "My_APP"
+  Eb_Enviroment_Var: "My_App-env"
+  Deploy_package_na: "my_app_${{ github.sha }}.zip"
+  Aws_Region_Name  : "eu-central-1"
 on:
   push:
-    branches:
-      - main
-
-jobs:
- my_test:
+    branches: 
+        - main
+jobs: 
+  my_ci:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Print Hello Message in Test
-      run : echo "Hello World from Teting job"  
-      
-    - name: Execute few commands
-      run : |
-        echo "Hello M1"
-        echo "Hello M2"
-        echo "App name: ${{ env.Aplications }}" 
-        
-    - name: List current 
-      run : ls -la 
-      
-    - name: GitClone
-      uses: actions/checkout@v1
-        
-    - name: List current 
-      run : ls -la   
- 
- my_deploy:
-    runs-on: ubuntu-latest 
-    needs: [my_test]
-    
-    steps:
-    - name: Print Hello Message in Deploy  
-      run : echo "Hello World from deploy job"
-      
-    - name: Print Deploy package
-      run : echo "Deploy packcage name is ${{ env.Package_name }}"
+    - name: Git clone our repo
+    - uses: actions/checkout@v1
+    - name: Create Zip deployment package
+      run : zip -r ${{ env.Deploy_package_na }} ./ -x *.git*
